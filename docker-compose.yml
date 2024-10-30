@@ -3,19 +3,21 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend  # Убедитесь, что контекст указан правильно
+      context: ../LabR_backend  # Путь к директории LabR_backend
     ports:
       - "5001:5001"
     environment:
       - FLASK_APP=backend.py
+    command: ["flask", "run", "--host=0.0.0.0", "--port=5001"]
 
   frontend:
     build:
-      context: ./frontend  # Убедитесь, что контекст указан правильно
+      context: ../LabR_frontend  # Путь к директории LabR_frontend
     ports:
       - "5000:5000"
     environment:
       - FLASK_APP=frontend.py
+    command: [ "flask", "run", "--host=0.0.0.0", "--port=5000" ]
 
   nginx:
     image: nginx:latest
