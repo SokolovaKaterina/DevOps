@@ -6,7 +6,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - FLACK_APP=backend.py
+      - FLASK_APP=backend.py
     command: ["flask", "run", "--host=0.0.0.0", "--port=5001"]
 
   frontend:
@@ -14,7 +14,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      - FLACK_APP=frontend.py
+      - FLASK_APP=frontend.py
     command: [ "flask", "run", "--host=0.0.0.0", "--port=5000" ]
 
   nginx:
