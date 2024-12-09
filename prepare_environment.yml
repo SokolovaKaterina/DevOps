@@ -1,1 +1,58 @@
+---
+- name: Setup Docker and clone repositories
+  hosts: all
+  tasks:
+  
+    - name: Update system packages
+      apt:
+        update_cache: yes
+      become: yes
+
+    - name: Check if Docker is installed
+      command: docker --version
+      register: docker_check
+      ignore_errors: yes
+
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present
+      become: yes
+      when: docker_check.rc != 0
+
+    - name: Install Docker Compose (as plugin)
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.30.3/docker-compose-linux-x86_64
+        dest: /usr/local/lib/docker/cli-plugins/docker-compose
+        mode: 'u+x,g+x'
+        
+    - name: Remove existing Frontend repository
+      file:
+        path: "{{ lookup('env', 'WORKSPACE') }}/LabR_frontend
+        state: absent
+
+    - name: Clone Frontend repository
+      git:
+        repo: 'https://github.com/SokolovaKaterina/LabR_frontend.git'
+        dest: "{{ lookup('env', 'WORKSPACE') }}/LabR_frontend
+
+    - name: Remove existing Backend repository
+      file:
+        path: "{{ lookup('env', 'WORKSPACE') }}/LabR_backend
+        state: absent
+
+    - name: Clone Backend repository
+      git:
+        repo: 'https://github.com/SokolovaKaterina/LabR_backend.git'
+        dest: "{{ lookup('env', 'WORKSPACE') }}/LabR_backend
+
+    - name: Remove existing DevOps repository
+      file:
+        path: "{{ lookup('env', 'WORKSPACE') }}/DevOps
+        state: absent
+
+    - name: Clone DevOps repository
+      git:
+        repo: 'https://github.com/SokolovaKaterina/DevOps.git'
+        dest: "{{ lookup('env', 'WORKSPACE') }}/DevOps
 
