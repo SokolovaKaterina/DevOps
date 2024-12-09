@@ -1,1 +1,29 @@
+- name: Start applications
+  hosts: all
+  become: yes
 
+  tasks:
+    - name: Check docker-compose.yml
+      stat:
+        path: "/home/core/Lab_3/DevOps/docker-compose.yml"
+      register: docker_compose_file
+
+    - name: Error. docker-compose.yml no
+      fail:
+        msg: "Файл docker-compose.yml не найден!"
+      when: not docker_compose_file.stat.exists
+
+    - name: Запуск сервисов с помощью Docker Compose
+      command: docker-compose up -d
+      args:
+        chdir: "/home/projects/DevOps"
+
+    - name: Вывод логов контейнеров
+      command: docker-compose logs
+      args:
+        chdir: "/home/core/Lab_3/DevOps"
+      register: compose_logs
+
+    - name: Печать логов
+      debug:
+        var: compose_logs.stdout
