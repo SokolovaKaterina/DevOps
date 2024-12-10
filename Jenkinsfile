@@ -2,13 +2,13 @@ pipeline {
     agent any
     environment {
         PATH = "/Library/Frameworks/Python.framework/Versions/3.13/bin:${env.PATH}"
-        ANSIBLE_BECOME_PASS = "student" // Замените на ваш пароль
+        ANSIBLE_BECOME_PASS = "182713" // Замените на ваш пароль
     }
     stages {
         stage('Установка переменной PATH') {
             steps {
                 script {
-                    env.PATH = "/usr/local/bin:${env.PATH}"
+                    env.PATH = "/usr/bin:${env.PATH}"
                 }
             }
         }
@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     // Замените 'your_playbook.yml' на имя вашего плейбука
-                    sh 'ansible-playbook -i DevOps/inventory.ini DevOps/prepare-environment.yml --become'
+                    sh 'ansible-playbook -i /home/ekaterina/Lab_3/DevOps/inventory.ini /home/ekaterina/Lab_3/DevOps/prepare_environment.yml --become'
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     // Замените 'your_playbook.yml' на имя вашего плейбука
-                    sh 'ansible-playbook -i DevOps/inventory.ini DevOps/start_application.yml --become'
+                    sh 'ansible-playbook -i /home/ekaterina/Lab_3/DevOps/inventory.yml /home/ekaterina/Lab_3/DevOps/start_application.yml --become'
                 }
             }
         }
