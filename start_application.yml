@@ -5,7 +5,7 @@
   tasks:
     - name: Check docker-compose.yml
       stat:
-        path: "/home/core/Lab_3/DevOps/docker-compose.yml"
+        path: "/home/ekaterina/Lab_3/DevOps/docker-compose.yml"
       register: docker_compose_file
 
     - name: Error. docker-compose.yml no
@@ -16,12 +16,12 @@
     - name: Запуск сервисов с помощью Docker Compose
       command: docker-compose up -d
       args:
-        chdir: "/home/projects/DevOps"
+        chdir: "/home/ekaterina/Lab_3/DevOps"
 
     - name: Вывод логов контейнеров
       command: docker-compose logs
       args:
-        chdir: "/home/core/Lab_3/DevOps"
+        chdir: "/home/ekaterina/Lab_3/DevOps"
       register: compose_logs
 
     - name: Печать логов
